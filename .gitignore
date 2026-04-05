@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pkl
+venv/
+.env
+.vscode/
+
+backend/vectorstore/
+backend/vectorstores/
+
+backend/uploads/
+
+
+node_modules/
+frontend/node_modules/
+
+
+.DS_Store
+*.log
