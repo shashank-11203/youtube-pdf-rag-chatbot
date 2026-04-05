@@ -26,8 +26,8 @@ export default function ChatWindow({ sourceId, sourceType, onReset }) {
 
     try {
       const endpoint = sourceType === "youtube"
-        ? "http://127.0.0.1:8000/chat/youtube"
-        : "http://127.0.0.1:8000/chat/pdf"
+        ? "https://youtube-pdf-rag-chatbot.onrender.com/chat/youtube"
+        : "https://youtube-pdf-rag-chatbot.onrender.com/chat/pdf"
       const payload = sourceType === "youtube"
         ? { video_id: sourceId, question: q, session_id: sessionId.current }
         : { pdf_id: sourceId, question: q, session_id: sessionId.current }

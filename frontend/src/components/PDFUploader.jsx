@@ -27,7 +27,7 @@ function PDFUploader({ onIngested }) {
       const formData = new FormData()
       formData.append("file", file)
 
-      const response = await axios.post("http://127.0.0.1:8000/ingest/pdf",
+      const response = await axios.post("https://youtube-pdf-rag-chatbot.onrender.com/ingest/pdf",
         formData,
         {
           headers: {

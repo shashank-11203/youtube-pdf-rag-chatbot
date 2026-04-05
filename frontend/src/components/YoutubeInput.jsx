@@ -13,7 +13,7 @@ function YoutubeInput({ onIngested }) {
         setError(null)
 
         try {
-            const response = await axios.post("http://127.0.0.1:8000/ingest/youtube",
+            const response = await axios.post("https://youtube-pdf-rag-chatbot.onrender.com/ingest/youtube",
                 { url }
             )
 
