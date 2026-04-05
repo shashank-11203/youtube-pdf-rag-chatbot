@@ -6,9 +6,8 @@ from app.core.llm import get_llm
 from app.core.embeddings import get_embeddings
 from app.core.vector_store import get_vector_store
 from app.services.youtube_loader import ingest_youtube_video
-from app.services.chat_service import chat_with_video
+from app.services.chat_service import chat_with_video, chat_with_pdf, reset_session
 from app.services.pdf_loader import ingest_pdf
-from app.services.chat_service import chat_with_pdf
 
 app = FastAPI(title="RAG Chatbot API")
 
@@ -74,11 +73,12 @@ def ingest_youtube(data: dict):
 def chat_youtube(data: dict):
     video_id = data.get("video_id")
     question = data.get("question")
+    session_id = data.get("session_id", "default")
     
     if not video_id or not question:
         return {"error": "video_id and question are required"}
     
-    result = chat_with_video(video_id, question)
+    result = chat_with_video(video_id, question, session_id)
     return result
 
 @app.post("/ingest/pdf")
@@ -95,11 +95,18 @@ async def ingest_pdf_route(file: UploadFile = File(...)):
 def chat_pdf(data: dict):
     pdf_id = data.get("pdf_id")
     question = data.get("question")
+    session_id = data.get("session_id", "default")
     
     if not pdf_id or not question:
         return {
             "error": "pdf_id and question are required"
         }
     
-    result = chat_with_pdf(pdf_id, question)
+    result = chat_with_pdf(pdf_id, question, session_id)
     return result
+
+@app.post("/reset")
+def reset(data:dict):
+    session_id = data.get("session_id", "default")
+    reset_session(session_id)
+    return {"message" : "Session cleared"}
