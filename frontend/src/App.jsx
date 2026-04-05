@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import ChatWindow from "./components/ChatWindow"
-import PDFUploader from "./components/PDFuploader"
+import PDFUploader from "./components/PDFUploader"
 import YoutubeInput from "./components/YoutubeInput"
 
 const BRAND = {
