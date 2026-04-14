@@ -1,4 +1,5 @@
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.proxies import WebshareProxyConfig
 from app.core.vector_store import get_vector_store
 
 def extract_video_id(url: str)->str:
@@ -9,8 +10,13 @@ def extract_video_id(url: str)->str:
     else: 
         raise ValueError("Invalid YouTube URL")
     
-def get_transcript(video_id: str)-> list:
-    ytt = YouTubeTranscriptApi()
+def get_transcript(video_id: str) -> list:
+    ytt = YouTubeTranscriptApi(
+        proxy_config=WebshareProxyConfig(
+            proxy_username="",
+            proxy_password="",
+        )
+    )
     fetched = ytt.fetch(video_id)
     
     transcript = [

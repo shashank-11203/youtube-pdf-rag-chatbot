@@ -13,7 +13,7 @@ app = FastAPI(title="RAG Chatbot API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173","https://youtube-pdf-rag-chatbot.vercel.app",],
+    allow_origins=["http://localhost:5173","https://youtube-pdf-rag-chatbot.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
