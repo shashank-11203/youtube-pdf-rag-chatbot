@@ -13,21 +13,28 @@ def extract_video_id(url: str)->str:
 import requests
 
 def get_transcript(video_id: str) -> list:
-    url = f"https://api.supadata.ai/v1/youtube/transcript"
-    headers = {"x-api-key": "YOUR_SUPADATA_KEY"}
+    url = "https://api.supadata.ai/v1/youtube/transcript"
+    headers = {"x-api-key": os.getenv("SUPADATA_API_KEY")}
     params = {"videoId": video_id, "lang": "en"}
     
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
     
-    transcript = [
-        {
-            "text": item["text"],
-            "start": item["offset"] / 1000,
-            "duration": item["duration"] / 1000
-        }
-        for item in data.get("content", [])
-    ]
+    content = data.get("content", [])
+    
+    if not content:
+        raise ValueError("No transcript found for this video")
+    
+    transcript = []
+    for item in content:
+        # handle both text and segment types
+        if isinstance(item, dict) and item.get("text"):
+            transcript.append({
+                "text": item["text"],
+                "start": item.get("offset", 0) / 1000,
+                "duration": item.get("duration", 0) / 1000
+            })
+    
     return transcript
 
 def format_transcript(transcript: list) -> list:
