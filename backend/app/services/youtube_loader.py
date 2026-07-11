@@ -10,22 +10,23 @@ def extract_video_id(url: str)->str:
     else: 
         raise ValueError("Invalid YouTube URL")
     
+import requests
+
 def get_transcript(video_id: str) -> list:
-    ytt = YouTubeTranscriptApi(
-        proxy_config=WebshareProxyConfig(
-            proxy_username="",
-            proxy_password="",
-        )
-    )
-    fetched = ytt.fetch(video_id)
+    url = f"https://api.supadata.ai/v1/youtube/transcript"
+    headers = {"x-api-key": "YOUR_SUPADATA_KEY"}
+    params = {"videoId": video_id, "lang": "en"}
+    
+    response = requests.get(url, headers=headers, params=params)
+    data = response.json()
     
     transcript = [
         {
-            "text": snippet.text,
-            "start": snippet.start,
-            "duration": snippet.duration
+            "text": item["text"],
+            "start": item["offset"] / 1000,
+            "duration": item["duration"] / 1000
         }
-        for snippet in fetched
+        for item in data.get("content", [])
     ]
     return transcript
 
