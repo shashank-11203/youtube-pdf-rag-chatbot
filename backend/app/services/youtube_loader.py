@@ -1,6 +1,7 @@
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
 from app.core.vector_store import get_vector_store
+import os
 
 def extract_video_id(url: str)->str:
     if "youtu.be/" in url:
